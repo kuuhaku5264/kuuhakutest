@@ -3,66 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>おみくじアプリ</title>
+    <title>Link X</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
         }
-        .omikuji-card {
-            min-height: 250px;
+        .bg-custom-gradient {
+            background-image: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0));
         }
     </style>
 </head>
-<body class="bg-gray-100 flex justify-center items-center min-h-screen p-4">
-<div class="container bg-white p-8 md:p-12 rounded-2xl shadow-lg w-full max-w-2xl text-center omikuji-card">
-    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">おみくじ</h1>
+<body class="bg-gray-900 text-white flex justify-center items-center min-h-screen">
+<div class="relative w-full max-w-sm mx-auto h-screen flex flex-col items-center p-4">
 
-    <p class="text-lg text-gray-600 mb-8">運勢を占ってみましょう！下のボタンを押してください。</p>
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0 overflow-hidden">
+        <!-- Replace with your actual background image URL -->
+        <img src="https://media.discordapp.net/attachments/1351071895143059547/1414992412610265128/IMG_6165.png?ex=68c195e0&is=68c04460&hm=4bc92bd039ffb92d3c1e2fd1e17803f1a59865522d2433ed38976e4b10678883&=&format=webp&quality=lossless&width=443&height=960" alt="Background" class="w-full h-full object-cover blur-sm">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+    </div>
 
-    <button id="drawButton" onclick="drawOmikuji()" class="w-full py-4 px-4 bg-red-600 text-white font-bold text-xl rounded-lg shadow-md hover:bg-red-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transform hover:scale-105">
-        おみくじを引く
-    </button>
+    <div class="relative z-10 w-full">
+        <!-- Header -->
+        <div class="flex flex-col items-center mb-6 mt-16">
+            <div class="w-24 h-24 rounded-full overflow-hidden border-2 border-white">
+                <!-- Replace with your actual profile image URL -->
+                <img src="https://placehold.co/150x150/d1d5db/4b5563?text=Profile" alt="Profile" class="w-full h-full object-cover">
+            </div>
+            <h2 class="mt-4 text-xl font-bold">Link X</h2>
+            <p class="text-sm text-gray-400 mt-1">3大欲求で生きるJD</p>
+            <p class="text-sm text-gray-400">暇があればまん凸します</p>
+            <p class="text-xs text-gray-500 mt-2">2004.05.20</p>
+        </div>
 
-    <div id="result" class="mt-8 p-6 bg-yellow-100 border border-yellow-300 rounded-lg text-gray-800 break-words whitespace-pre-wrap min-h-[120px] flex flex-col items-center justify-center text-center">
-        <p class="text-2xl font-bold mb-2">何が出るかな？</p>
-        <p class="text-gray-600">あなたの今日の運勢を占います。</p>
+        <!-- Link Buttons -->
+        <div class="space-y-4">
+            <a href="#" class="block">
+                <div class="bg-gray-800 bg-opacity-70 rounded-xl p-3 flex items-center shadow-lg transform transition-transform duration-200 hover:scale-[1.02]">
+                    <!-- Replace with your actual link image URL -->
+                    <img src="https://placehold.co/60x60/d1d5db/4b5563?text=Image" alt="Link Image" class="w-14 h-14 rounded-lg object-cover mr-4">
+                    <span class="text-lg font-semibold text-white">今週末に即やりたい方はこちら</span>
+                </div>
+            </a>
+            <a href="#" class="block">
+                <div class="bg-gray-800 bg-opacity-70 rounded-xl p-3 flex items-center shadow-lg transform transition-transform duration-200 hover:scale-[1.02]">
+                    <!-- Replace with your actual link image URL -->
+                    <img src="https://placehold.co/60x60/d1d5db/4b5563?text=Image" alt="Link Image" class="w-14 h-14 rounded-lg object-cover mr-4">
+                    <span class="text-lg font-semibold text-white">おすすめの即ハメLINEグループはこちら</span>
+                </div>
+            </a>
+            <a href="#" class="block">
+                <div class="bg-gray-800 bg-opacity-70 rounded-xl p-3 flex items-center shadow-lg transform transition-transform duration-200 hover:scale-[1.02]">
+                    <!-- Replace with your actual link image URL -->
+                    <img src="https://placehold.co/60x60/d1d5db/4b5563?text=Image" alt="Link Image" class="w-14 h-14 rounded-lg object-cover mr-4">
+                    <span class="text-lg font-semibold text-white">まん凸待ちの方はこちら</span>
+                </div>
+            </a>
+            <a href="#" class="block">
+                <div class="bg-gray-800 bg-opacity-70 rounded-xl p-3 flex items-center shadow-lg transform transition-transform duration-200 hover:scale-[1.02]">
+                    <!-- Replace with your actual link image URL -->
+                    <img src="https://placehold.co/60x60/d1d5db/4b5563?text=Image" alt="Link Image" class="w-14 h-14 rounded-lg object-cover mr-4">
+                    <span class="text-lg font-semibold text-white">即ヤリできるアプリはこちら</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer / URL Display -->
+    <div class="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-xs z-10">
+        fine-cloud.net
     </div>
 </div>
-
-<script>
-    // おみくじの結果を配列に格納
-    const fortunes = [
-        { title: "大吉", message: "今日のあなたは最高にツイています！何事もスムーズに進むでしょう。新しいことに挑戦してみましょう。" },
-        { title: "中吉", message: "良いことがありそうな一日です。計画通りに行動すれば、素晴らしい結果が得られるでしょう。前向きな気持ちで過ごしましょう。" },
-        { title: "小吉", message: "小さな幸運が訪れるかもしれません。日々の出来事に目を向けてみましょう。周りの人の優しさに感謝しましょう。" },
-        { title: "末吉", message: "少しだけ注意が必要ですが、心配はいりません。慎重に行動すれば、夜には運気が上がってくるでしょう。" },
-        { title: "吉", message: "穏やかで安定した日になりそうです。焦らず、自分のペースで行動しましょう。" },
-        { title: "半吉", message: "運気はこれから上昇します。諦めずに努力を続ければ、必ず報われるでしょう。" },
-        { title: "後吉", message: "午後に幸運が訪れます。午前中は準備期間と考え、午後からの行動に備えましょう。" },
-        { title: "凶", message: "今日は少し注意が必要です。しかし、これは明日へのステップです。慎重に行動すれば大丈夫です。" },
-        { title: "大凶", message: "今日は無理をせず、静かに過ごすのが吉です。焦らず、ゆっくりと過ごしましょう。きっと良い日になります。" }
-    ];
-
-    function drawOmikuji() {
-        const resultDiv = document.getElementById('result');
-        const drawButton = document.getElementById('drawButton');
-
-        // ボタンを無効化して連打を防ぐ
-        drawButton.disabled = true;
-
-        // ランダムに結果を1つ選ぶ
-        const randomIndex = Math.floor(Math.random() * fortunes.length);
-        const fortune = fortunes[randomIndex];
-
-        // 結果を画面に表示
-        resultDiv.innerHTML = `<p class="text-4xl font-extrabold mb-4 animate-bounce">${fortune.title}！</p><p class="text-lg text-gray-700 whitespace-pre-wrap">${fortune.message}</p>`;
-
-        // アニメーション後にボタンを有効化
-        setTimeout(() => {
-            drawButton.disabled = false;
-        }, 1000);
-    }
-</script>
 </body>
 </html>
