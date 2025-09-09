@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ウェブ計算機</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .calculator {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+        }
+
+        #display {
+            width: 100%;
+            height: 40px;
+            font-size: 1.5em;
+            text-align: right;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 20px;
+            font-size: 1.2em;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .operator {
+            background-color: #ff9500;
+            color: white;
+        }
+
+        .operator:hover {
+            background-color: #e58a00;
+        }
+
+        .equals {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .equals:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <input type="text" id="display" disabled>
+    <div class="buttons">
+        <button class="btn" onclick="appendToDisplay('7')">7</button>
+        <button class="btn" onclick="appendToDisplay('8')">8</button>
+        <button class="btn" onclick="appendToDisplay('9')">9</button>
+        <button class="btn operator" onclick="appendToDisplay('/')">÷</button>
+
+        <button class="btn" onclick="appendToDisplay('4')">4</button>
+        <button class="btn" onclick="appendToDisplay('5')">5</button>
+        <button class="btn" onclick="appendToDisplay('6')">6</button>
+        <button class="btn operator" onclick="appendToDisplay('*')">×</button>
+
+        <button class="btn" onclick="appendToDisplay('1')">1</button>
+        <button class="btn" onclick="appendToDisplay('2')">2</button>
+        <button class="btn" onclick="appendToDisplay('3')">3</button>
+        <button class="btn operator" onclick="appendToDisplay('-')">-</button>
+
+        <button class="btn" onclick="appendToDisplay('0')">0</button>
+        <button class="btn" onclick="appendToDisplay('.')">.</button>
+        <button class="btn" onclick="clearDisplay()">C</button>
+        <button class="btn operator" onclick="appendToDisplay('+')">+</button>
+
+        <button class="btn equals" onclick="calculate()">=</button>
+    </div>
+</div>
+
+<script>
+    const display = document.getElementById('display');
+
+    function appendToDisplay(value) {
+        display.value += value;
+    }
+
+    function clearDisplay() {
+        display.value = '';
+    }
+
+    function calculate() {
+        try {
+            // eval() 関数は、文字列を JavaScript の式として評価します。
+            // セキュリティ上のリスクがあるため、実運用では推奨されませんが、
+            // このような学習目的のシンプルな計算機では便利です。
+            display.value = eval(display.value);
+        } catch (error) {
+            display.value = 'Error';
+        }
+    }
+</script>
+</body>
+</html>
