@@ -2,125 +2,66 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>ウェブ計算機</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>おみくじアプリ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
+            font-family: 'Inter', sans-serif;
         }
-
-        .calculator {
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 300px;
-        }
-
-        #display {
-            width: 100%;
-            height: 40px;
-            font-size: 1.5em;
-            text-align: right;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            padding: 5px;
-            box-sizing: border-box;
-        }
-
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-
-        .btn {
-            padding: 20px;
-            font-size: 1.2em;
-            text-align: center;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .btn:hover {
-            background-color: #e0e0e0;
-        }
-
-        .operator {
-            background-color: #ff9500;
-            color: white;
-        }
-
-        .operator:hover {
-            background-color: #e58a00;
-        }
-
-        .equals {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .equals:hover {
-            background-color: #45a049;
+        .omikuji-card {
+            min-height: 250px;
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen p-4">
+<div class="container bg-white p-8 md:p-12 rounded-2xl shadow-lg w-full max-w-2xl text-center omikuji-card">
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">おみくじ</h1>
 
-<div class="calculator">
-    <input type="text" id="display" disabled>
-    <div class="buttons">
-        <button class="btn" onclick="appendToDisplay('7')">7</button>
-        <button class="btn" onclick="appendToDisplay('8')">8</button>
-        <button class="btn" onclick="appendToDisplay('9')">9</button>
-        <button class="btn operator" onclick="appendToDisplay('/')">÷</button>
+    <p class="text-lg text-gray-600 mb-8">運勢を占ってみましょう！下のボタンを押してください。</p>
 
-        <button class="btn" onclick="appendToDisplay('4')">4</button>
-        <button class="btn" onclick="appendToDisplay('5')">5</button>
-        <button class="btn" onclick="appendToDisplay('6')">6</button>
-        <button class="btn operator" onclick="appendToDisplay('*')">×</button>
+    <button id="drawButton" onclick="drawOmikuji()" class="w-full py-4 px-4 bg-red-600 text-white font-bold text-xl rounded-lg shadow-md hover:bg-red-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transform hover:scale-105">
+        おみくじを引く
+    </button>
 
-        <button class="btn" onclick="appendToDisplay('1')">1</button>
-        <button class="btn" onclick="appendToDisplay('2')">2</button>
-        <button class="btn" onclick="appendToDisplay('3')">3</button>
-        <button class="btn operator" onclick="appendToDisplay('-')">-</button>
-
-        <button class="btn" onclick="appendToDisplay('0')">0</button>
-        <button class="btn" onclick="appendToDisplay('.')">.</button>
-        <button class="btn" onclick="clearDisplay()">C</button>
-        <button class="btn operator" onclick="appendToDisplay('+')">+</button>
-
-        <button class="btn equals" onclick="calculate()">=</button>
+    <div id="result" class="mt-8 p-6 bg-yellow-100 border border-yellow-300 rounded-lg text-gray-800 break-words whitespace-pre-wrap min-h-[120px] flex flex-col items-center justify-center text-center">
+        <p class="text-2xl font-bold mb-2">何が出るかな？</p>
+        <p class="text-gray-600">あなたの今日の運勢を占います。</p>
     </div>
 </div>
 
 <script>
-    const display = document.getElementById('display');
+    // おみくじの結果を配列に格納
+    const fortunes = [
+        { title: "大吉", message: "今日のあなたは最高にツイています！何事もスムーズに進むでしょう。新しいことに挑戦してみましょう。" },
+        { title: "中吉", message: "良いことがありそうな一日です。計画通りに行動すれば、素晴らしい結果が得られるでしょう。前向きな気持ちで過ごしましょう。" },
+        { title: "小吉", message: "小さな幸運が訪れるかもしれません。日々の出来事に目を向けてみましょう。周りの人の優しさに感謝しましょう。" },
+        { title: "末吉", message: "少しだけ注意が必要ですが、心配はいりません。慎重に行動すれば、夜には運気が上がってくるでしょう。" },
+        { title: "吉", message: "穏やかで安定した日になりそうです。焦らず、自分のペースで行動しましょう。" },
+        { title: "半吉", message: "運気はこれから上昇します。諦めずに努力を続ければ、必ず報われるでしょう。" },
+        { title: "後吉", message: "午後に幸運が訪れます。午前中は準備期間と考え、午後からの行動に備えましょう。" },
+        { title: "凶", message: "今日は少し注意が必要です。しかし、これは明日へのステップです。慎重に行動すれば大丈夫です。" },
+        { title: "大凶", message: "今日は無理をせず、静かに過ごすのが吉です。焦らず、ゆっくりと過ごしましょう。きっと良い日になります。" }
+    ];
 
-    function appendToDisplay(value) {
-        display.value += value;
-    }
+    function drawOmikuji() {
+        const resultDiv = document.getElementById('result');
+        const drawButton = document.getElementById('drawButton');
 
-    function clearDisplay() {
-        display.value = '';
-    }
+        // ボタンを無効化して連打を防ぐ
+        drawButton.disabled = true;
 
-    function calculate() {
-        try {
-            // eval() 関数は、文字列を JavaScript の式として評価します。
-            // セキュリティ上のリスクがあるため、実運用では推奨されませんが、
-            // このような学習目的のシンプルな計算機では便利です。
-            display.value = eval(display.value);
-        } catch (error) {
-            display.value = 'Error';
-        }
+        // ランダムに結果を1つ選ぶ
+        const randomIndex = Math.floor(Math.random() * fortunes.length);
+        const fortune = fortunes[randomIndex];
+
+        // 結果を画面に表示
+        resultDiv.innerHTML = `<p class="text-4xl font-extrabold mb-4 animate-bounce">${fortune.title}！</p><p class="text-lg text-gray-700 whitespace-pre-wrap">${fortune.message}</p>`;
+
+        // アニメーション後にボタンを有効化
+        setTimeout(() => {
+            drawButton.disabled = false;
+        }, 1000);
     }
 </script>
 </body>
