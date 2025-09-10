@@ -66,293 +66,319 @@
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
 
-<div class="bg-white p-8 rounded-2xl shadow-xl max-w-sm w-full">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">バカラ シミュレーター</h1>
+    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-sm w-full">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">バカラ シミュレーター</h1>
+        
+        <!-- 資金入力エリア -->
+        <div class="mb-6">
+            <label for="initialCapital" class="block text-sm font-medium text-gray-700 mb-2">初期資金</label>
+            <div class="flex">
+                <input type="number" id="initialCapital" class="w-full rounded-l-xl border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2" placeholder="10000" min="0">
+                <button id="setCapitalButton" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-r-xl shadow-lg transition duration-300">
+                    確定
+                </button>
+            </div>
+            <p id="capitalInfo" class="mt-2 text-xl font-bold text-gray-800">資金: 0</p>
+        </div>
+        
+        <!-- 結果表示エリア -->
+        <div id="result" class="text-5xl font-extrabold text-purple-600 mb-8 h-20 flex items-center justify-center transition-all duration-300">
+            <!-- 結果がここに表示されます -->
+        </div>
 
-    <!-- 資金入力エリア -->
-    <div class="mb-6">
-        <label for="initialCapital" class="block text-sm font-medium text-gray-700 mb-2">初期資金</label>
-        <div class="flex">
-            <input type="number" id="initialCapital" class="w-full rounded-l-xl border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2" placeholder="10000" min="0">
-            <button id="setCapitalButton" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-r-xl shadow-lg transition duration-300">
-                確定
+        <!-- 連続回数表示 -->
+        <div class="text-lg text-gray-600 mb-4">
+            連続: <span id="streakCount" class="font-bold">0</span> 回
+        </div>
+
+        <!-- 統計情報 -->
+        <div class="flex justify-center space-x-8 mb-6 text-gray-700 font-medium">
+            <div>
+                <p>勝利</p>
+                <p id="totalWins" class="text-2xl font-bold text-green-600">0</p>
+            </div>
+            <div>
+                <p>合計</p>
+                <p id="totalPlays" class="text-2xl font-bold text-gray-800">0</p>
+            </div>
+            <div>
+                <p>勝率</p>
+                <p id="winRate" class="text-2xl font-bold text-blue-600">0.0%</p>
+            </div>
+        </div>
+
+        <!-- アクションボタン -->
+        <div class="flex justify-center space-x-4">
+            <button id="choiceButton" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-105">
+                選ぶ
+            </button>
+            <button id="resetButton" class="flex-1 bg-gray-400 hover:bg-gray-500 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-105">
+                リセット
             </button>
         </div>
-        <p id="capitalInfo" class="mt-2 text-xl font-bold text-gray-800">資金: 0</p>
-    </div>
 
-    <!-- 結果表示エリア -->
-    <div id="result" class="text-5xl font-extrabold text-blue-600 mb-8 h-20 flex items-center justify-center transition-all duration-300">
-        <!-- 結果がここに表示されます -->
-    </div>
-
-    <!-- 連続回数表示 -->
-    <div class="text-lg text-gray-600 mb-4">
-        連続: <span id="streakCount" class="font-bold">0</span> 回
-    </div>
-
-    <!-- 統計情報 -->
-    <div class="flex justify-center space-x-8 mb-6 text-gray-700 font-medium">
-        <div>
-            <p>勝利</p>
-            <p id="totalWins" class="text-2xl font-bold text-green-600">0</p>
+        <!-- 勝敗記録ボタンと賭け金入力 -->
+        <div class="mt-6">
+            <label for="betAmount" class="block text-sm font-medium text-gray-700 mb-2">賭け金</label>
+            <input type="number" id="betAmount" class="w-full rounded-xl border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2" placeholder="100" min="1">
+            <div class="flex justify-center space-x-4 mt-4">
+                <button id="winButton" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition duration-300 transform hover:scale-105 disabled-button" disabled>
+                    勝ち
+                </button>
+                <button id="loseButton" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition duration-300 transform hover:scale-105 disabled-button" disabled>
+                    負け
+                </button>
+            </div>
         </div>
-        <div>
-            <p>合計</p>
-            <p id="totalPlays" class="text-2xl font-bold text-gray-800">0</p>
+
+        <!-- 履歴テーブル -->
+        <h2 class="text-xl font-bold text-gray-800 mt-8 mb-4">履歴</h2>
+        <div class="table-container">
+            <table class="w-full text-sm text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                    <tr>
+                        <th scope="col">回</th>
+                        <th scope="col">結果</th>
+                        <th scope="col">賭け金</th>
+                        <th scope="col">損益</th>
+                        <th scope="col">資金</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <!-- 履歴がここに動的に追加されます -->
+                </tbody>
+            </table>
         </div>
-        <div>
-            <p>勝率</p>
-            <p id="winRate" class="text-2xl font-bold text-blue-600">0.0%</p>
-        </div>
+
+        <p class="mt-8 text-gray-500 text-sm">
+            ※ バンカー勝利時の配当は手数料が引かれ、賭け金の0.95倍となります。
+        </p>
+
     </div>
 
-    <!-- アクションボタン -->
-    <div class="flex justify-center space-x-4">
-        <button id="choiceButton" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-105">
-            選ぶ
-        </button>
-        <button id="resetButton" class="flex-1 bg-gray-400 hover:bg-gray-500 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-105">
-            リセット
-        </button>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const choiceButton = document.getElementById('choiceButton');
+            const winButton = document.getElementById('winButton');
+            const loseButton = document.getElementById('loseButton');
+            const resetButton = document.getElementById('resetButton');
+            const setCapitalButton = document.getElementById('setCapitalButton');
+            const resultDisplay = document.getElementById('result');
+            const totalPlaysDisplay = document.getElementById('totalPlays');
+            const totalWinsDisplay = document.getElementById('totalWins');
+            const winRateDisplay = document.getElementById('winRate');
+            const streakCountDisplay = document.getElementById('streakCount');
+            const initialCapitalInput = document.getElementById('initialCapital');
+            const capitalInfo = document.getElementById('capitalInfo');
+            const betAmountInput = document.getElementById('betAmount');
+            const historyTableBody = document.getElementById('historyTableBody');
 
-    <!-- 勝敗記録ボタンと賭け金入力 -->
-    <div class="mt-6">
-        <label for="betAmount" class="block text-sm font-medium text-gray-700 mb-2">賭け金</label>
-        <input type="number" id="betAmount" class="w-full rounded-xl border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 px-4 py-2" placeholder="100" min="1">
-        <div class="flex justify-center space-x-4 mt-4">
-            <button id="winButton" class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition duration-300 transform hover:scale-105 disabled-button" disabled>
-                勝ち
-            </button>
-            <button id="loseButton" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition duration-300 transform hover:scale-105 disabled-button" disabled>
-                負け
-            </button>
-        </div>
-    </div>
+            let previousChoice = null;
+            let totalPlays = 0;
+            let totalWins = 0;
+            let streakCount = 0;
+            let capital = 0;
+            
+            let aiPrediction = '';
+            let gameHistory = []; // AIの予測に使用する履歴
 
-    <!-- 履歴テーブル -->
-    <h2 class="text-xl font-bold text-gray-800 mt-8 mb-4">履歴</h2>
-    <div class="table-container">
-        <table class="w-full text-sm text-gray-500">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-            <tr>
-                <th scope="col">回</th>
-                <th scope="col">結果</th>
-                <th scope="col">賭け金</th>
-                <th scope="col">損益</th>
-                <th scope="col">資金</th>
-            </tr>
-            </thead>
-            <tbody id="historyTableBody">
-            <!-- 履歴がここに動的に追加されます -->
-            </tbody>
-        </table>
-    </div>
+            // 統計情報を更新する関数
+            const updateStats = () => {
+                totalPlaysDisplay.textContent = totalPlays;
+                totalWinsDisplay.textContent = totalWins;
+                const winRate = totalPlays > 0 ? (totalWins / totalPlays * 100).toFixed(1) : 0;
+                winRateDisplay.textContent = `${winRate}%`;
+                capitalInfo.textContent = `資金: ${capital.toFixed(2)}`;
+            };
+            
+            // 履歴に項目を追加する関数
+            const addHistoryEntry = (result, bet, profit) => {
+                const row = document.createElement('tr');
+                row.className = 'bg-white border-b hover:bg-gray-50';
+                
+                const playCell = document.createElement('td');
+                playCell.textContent = totalPlays;
+                row.appendChild(playCell);
 
-    <p class="mt-8 text-gray-500 text-sm">
-        ※ バンカー勝利時の配当は手数料が引かれ、賭け金の0.95倍となります。
-    </p>
+                const resultCell = document.createElement('td');
+                resultCell.textContent = result;
+                row.appendChild(resultCell);
 
-</div>
+                const betCell = document.createElement('td');
+                betCell.textContent = bet;
+                row.appendChild(betCell);
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const choiceButton = document.getElementById('choiceButton');
-        const winButton = document.getElementById('winButton');
-        const loseButton = document.getElementById('loseButton');
-        const resetButton = document.getElementById('resetButton');
-        const setCapitalButton = document.getElementById('setCapitalButton');
-        const resultDisplay = document.getElementById('result');
-        const totalPlaysDisplay = document.getElementById('totalPlays');
-        const totalWinsDisplay = document.getElementById('totalWins');
-        const winRateDisplay = document.getElementById('winRate');
-        const streakCountDisplay = document.getElementById('streakCount');
-        const initialCapitalInput = document.getElementById('initialCapital');
-        const capitalInfo = document.getElementById('capitalInfo');
-        const betAmountInput = document.getElementById('betAmount');
-        const historyTableBody = document.getElementById('historyTableBody');
+                const profitCell = document.createElement('td');
+                profitCell.textContent = profit > 0 ? `+${profit.toFixed(2)}` : profit.toFixed(2);
+                profitCell.classList.add(profit >= 0 ? 'won' : 'lost');
+                row.appendChild(profitCell);
 
-        let previousChoice = null;
-        let totalPlays = 0;
-        let totalWins = 0;
-        let streakCount = 0;
-        let capital = 0;
-        const MECHA_THRESHOLD = 5; // 何回連続でメカ発動するか
+                const capitalCell = document.createElement('td');
+                capitalCell.textContent = capital.toFixed(2);
+                row.appendChild(capitalCell);
+                
+                historyTableBody.prepend(row);
+            };
 
-        // 統計情報を更新する関数
-        const updateStats = () => {
-            totalPlaysDisplay.textContent = totalPlays;
-            totalWinsDisplay.textContent = totalWins;
-            const winRate = totalPlays > 0 ? (totalWins / totalPlays * 100).toFixed(1) : 0;
-            winRateDisplay.textContent = `${winRate}%`;
-            capitalInfo.textContent = `資金: ${capital.toFixed(2)}`;
-        };
+            // ボタンの状態を更新する関数
+            const updateButtonState = (canChoose) => {
+                if (canChoose) {
+                    choiceButton.disabled = false;
+                    choiceButton.classList.remove('disabled-button');
+                    winButton.disabled = true;
+                    winButton.classList.add('disabled-button');
+                    loseButton.disabled = true;
+                    loseButton.classList.add('disabled-button');
+                } else {
+                    choiceButton.disabled = true;
+                    choiceButton.classList.add('disabled-button');
+                    winButton.disabled = false;
+                    winButton.classList.remove('disabled-button');
+                    loseButton.disabled = false;
+                    loseButton.classList.remove('disabled-button');
+                }
+            };
+            
+            updateButtonState(true);
 
-        // 履歴に項目を追加する関数
-        const addHistoryEntry = (result, bet, profit) => {
-            const row = document.createElement('tr');
-            row.className = 'bg-white border-b hover:bg-gray-50';
+            // 初期資金をセット
+            setCapitalButton.addEventListener('click', () => {
+                const inputCapital = parseFloat(initialCapitalInput.value);
+                if (!isNaN(inputCapital) && inputCapital >= 0) {
+                    capital = inputCapital;
+                    updateStats();
+                } else {
+                    alert('有効な金額を入力してください。');
+                }
+            });
+            
+            // AIの予測ロジック
+            const getAiPrediction = () => {
+                // 過去10回のゲーム履歴を分析
+                const recentHistory = gameHistory.slice(0, 10);
+                const playerCount = recentHistory.filter(h => h === 'プレイヤー').length;
+                const bankerCount = recentHistory.filter(h => h === 'バンカー').length;
 
-            const playCell = document.createElement('td');
-            playCell.textContent = totalPlays;
-            row.appendChild(playCell);
+                if (playerCount > bankerCount) {
+                    return 'プレイヤー';
+                } else if (bankerCount > playerCount) {
+                    return 'バンカー';
+                } else {
+                    // 同数の場合はランダム
+                    const choices = ['プレイヤー', 'バンカー'];
+                    return choices[Math.floor(Math.random() * choices.length)];
+                }
+            };
 
-            const resultCell = document.createElement('td');
-            resultCell.textContent = result;
-            row.appendChild(resultCell);
+            // 結果をランダムで選ぶ
+            choiceButton.addEventListener('click', () => {
+                resultDisplay.classList.remove('flash-animation', 'scale-up-animation');
+                
+                // AIの予測と表示
+                aiPrediction = getAiPrediction();
+                
+                if (aiPrediction === previousChoice) {
+                    streakCount++;
+                    resultDisplay.classList.add('flash-animation');
+                } else {
+                    streakCount = 1;
+                    resultDisplay.classList.add('scale-up-animation');
+                }
+                
+                resultDisplay.textContent = aiPrediction;
 
-            const betCell = document.createElement('td');
-            betCell.textContent = bet;
-            row.appendChild(betCell);
+                if (aiPrediction === 'プレイヤー') {
+                    resultDisplay.classList.remove('text-red-600');
+                    resultDisplay.classList.add('text-green-600');
+                } else {
+                    resultDisplay.classList.remove('text-green-600');
+                    resultDisplay.classList.add('text-red-600');
+                }
+                
+                previousChoice = aiPrediction;
+                streakCountDisplay.textContent = streakCount;
+                
+                updateButtonState(false);
+            });
 
-            const profitCell = document.createElement('td');
-            profitCell.textContent = profit > 0 ? `+${profit.toFixed(2)}` : profit.toFixed(2);
-            profitCell.classList.add(profit >= 0 ? 'won' : 'lost');
-            row.appendChild(profitCell);
-
-            const capitalCell = document.createElement('td');
-            capitalCell.textContent = capital.toFixed(2);
-            row.appendChild(capitalCell);
-
-            historyTableBody.prepend(row);
-        };
-
-        // ボタンの状態を更新する関数
-        const updateButtonState = (canChoose) => {
-            if (canChoose) {
-                choiceButton.disabled = false;
-                choiceButton.classList.remove('disabled-button');
-                winButton.disabled = true;
-                winButton.classList.add('disabled-button');
-                loseButton.disabled = true;
-                loseButton.classList.add('disabled-button');
-            } else {
-                choiceButton.disabled = true;
-                choiceButton.classList.add('disabled-button');
-                winButton.disabled = false;
-                winButton.classList.remove('disabled-button');
-                loseButton.disabled = false;
-                loseButton.classList.remove('disabled-button');
-            }
-        };
-
-        updateButtonState(true);
-
-        // 初期資金をセット
-        setCapitalButton.addEventListener('click', () => {
-            const inputCapital = parseFloat(initialCapitalInput.value);
-            if (!isNaN(inputCapital) && inputCapital >= 0) {
-                capital = inputCapital;
+            // 勝ちボタンが押されたとき
+            winButton.addEventListener('click', () => {
+                const betAmount = parseFloat(betAmountInput.value);
+                if (isNaN(betAmount) || betAmount <= 0) {
+                    alert('有効な賭け金を入力してください。');
+                    return;
+                }
+                if (capital < betAmount) {
+                    alert('資金が足りません。');
+                    return;
+                }
+                
+                totalPlays++;
+                totalWins++;
+                
+                let profit = 0;
+                let winType = '';
+                if (previousChoice === 'プレイヤー') {
+                    profit = betAmount;
+                    winType = '（プレイヤー勝利）';
+                } else if (previousChoice === 'バンカー') {
+                    profit = betAmount * 0.95;
+                    winType = '（バンカー勝利）';
+                } else {
+                    // ここは通常発生しないはず
+                    alert('「選ぶ」ボタンを押して結果を表示してください。');
+                    return;
+                }
+                
+                // 履歴に追加
+                gameHistory.unshift(previousChoice);
+                
+                capital += profit;
                 updateStats();
-            } else {
-                alert('有効な金額を入力してください。');
-            }
+                addHistoryEntry(`勝ち ${winType}`, betAmount, profit);
+                updateButtonState(true);
+            });
+
+            // 負けボタンが押されたとき
+            loseButton.addEventListener('click', () => {
+                const betAmount = parseFloat(betAmountInput.value);
+                if (isNaN(betAmount) || betAmount <= 0) {
+                    alert('有効な賭け金を入力してください。');
+                    return;
+                }
+                if (capital < betAmount) {
+                    alert('資金が足りません。');
+                    return;
+                }
+                
+                totalPlays++;
+                const profit = -betAmount;
+                capital += profit;
+                
+                // 履歴に追加
+                gameHistory.unshift(previousChoice);
+
+                updateStats();
+                addHistoryEntry('負け', betAmount, profit);
+                updateButtonState(true);
+            });
+            
+            // リセットボタンが押されたとき
+            resetButton.addEventListener('click', () => {
+                totalPlays = 0;
+                totalWins = 0;
+                streakCount = 0;
+                capital = 0;
+                previousChoice = null;
+                gameHistory = [];
+                resultDisplay.textContent = '';
+                resultDisplay.classList.remove('text-green-600', 'text-red-600');
+                updateStats();
+                streakCountDisplay.textContent = streakCount;
+                historyTableBody.innerHTML = '';
+                updateButtonState(true);
+            });
         });
-
-        // 結果をランダムで選ぶ
-        choiceButton.addEventListener('click', () => {
-            resultDisplay.classList.remove('flash-animation', 'scale-up-animation');
-
-            const choices = ['プレイヤー', 'バンカー'];
-            const randomChoice = choices[Math.floor(Math.random() * choices.length)];
-
-            if (randomChoice === previousChoice) {
-                streakCount++;
-                resultDisplay.classList.add('flash-animation');
-            } else {
-                streakCount = 1;
-                resultDisplay.classList.add('scale-up-animation');
-            }
-
-            if (streakCount >= MECHA_THRESHOLD) {
-                resultDisplay.textContent = 'メカ発動！';
-            } else {
-                resultDisplay.textContent = randomChoice;
-            }
-
-            if (randomChoice === 'プレイヤー') {
-                resultDisplay.classList.remove('text-red-600');
-                resultDisplay.classList.add('text-green-600');
-            } else {
-                resultDisplay.classList.remove('text-green-600');
-                resultDisplay.classList.add('text-red-600');
-            }
-
-            previousChoice = randomChoice;
-            streakCountDisplay.textContent = streakCount;
-            updateButtonState(false);
-        });
-
-        // 勝ちボタンが押されたとき
-        winButton.addEventListener('click', () => {
-            const betAmount = parseFloat(betAmountInput.value);
-            if (isNaN(betAmount) || betAmount <= 0) {
-                alert('有効な賭け金を入力してください。');
-                return;
-            }
-            if (capital < betAmount) {
-                alert('資金が足りません。');
-                return;
-            }
-
-            totalPlays++;
-            totalWins++;
-
-            let profit = 0;
-            let winType = '';
-            if (previousChoice === 'プレイヤー') {
-                profit = betAmount;
-                winType = '（プレイヤー勝利）';
-            } else if (previousChoice === 'バンカー') {
-                profit = betAmount * 0.95;
-                winType = '（バンカー勝利）';
-            } else {
-                // ここは通常発生しないはず
-                alert('「選ぶ」ボタンを押して結果を表示してください。');
-                return;
-            }
-
-            capital += profit;
-            updateStats();
-            addHistoryEntry(`勝ち ${winType}`, betAmount, profit);
-            updateButtonState(true);
-        });
-
-        // 負けボタンが押されたとき
-        loseButton.addEventListener('click', () => {
-            const betAmount = parseFloat(betAmountInput.value);
-            if (isNaN(betAmount) || betAmount <= 0) {
-                alert('有効な賭け金を入力してください。');
-                return;
-            }
-            if (capital < betAmount) {
-                alert('資金が足りません。');
-                return;
-            }
-
-            totalPlays++;
-            const profit = -betAmount;
-            capital += profit;
-            updateStats();
-            addHistoryEntry('負け', betAmount, profit);
-            updateButtonState(true);
-        });
-
-        // リセットボタンが押されたとき
-        resetButton.addEventListener('click', () => {
-            totalPlays = 0;
-            totalWins = 0;
-            streakCount = 0;
-            capital = 0;
-            resultDisplay.textContent = '';
-            resultDisplay.classList.remove('text-green-600', 'text-red-600');
-            updateStats();
-            streakCountDisplay.textContent = streakCount;
-            historyTableBody.innerHTML = '';
-            updateButtonState(true);
-        });
-    });
-</script>
+    </script>
 </body>
 </html>
